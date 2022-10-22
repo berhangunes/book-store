@@ -1,9 +1,9 @@
 package com.readingisgood.bookstore.service;
 
 import com.readingisgood.bookstore.converter.BookConverter;
-import com.readingisgood.bookstore.model.response.AddBookResponse;
-import com.readingisgood.bookstore.model.response.GetAllBooksResponse;
-import com.readingisgood.bookstore.model.response.GetBookByIdResponse;
+import com.readingisgood.bookstore.model.response.AddBookDto;
+import com.readingisgood.bookstore.model.response.GetAllBooksDto;
+import com.readingisgood.bookstore.model.response.GetBookByIdDto;
 import com.readingisgood.bookstore.persistence.entity.Book;
 import com.readingisgood.bookstore.persistence.repository.BookRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,27 +19,27 @@ public class BookService {
 
     private final BookRepository bookRepository;
 
-    public GetBookByIdResponse findBookById(Long bookId) {
+    public GetBookByIdDto findBookById(Long bookId) {
         Book book = bookRepository.findBookById(bookId);
-        return BookConverter.getBookByIdResponse(book);
+        return BookConverter.getBookByIdDto(book);
     }
 
-    public List<GetAllBooksResponse> getBooks(){
-        return bookRepository.findAll().stream().map(BookConverter::getAllBooksResponse).collect(Collectors.toList());
+    public List<GetAllBooksDto> getBooks(){
+        return bookRepository.findAll().stream().map(BookConverter::getAllBooksDto).collect(Collectors.toList());
     }
 
     public Integer getStockByName(String name){
         return bookRepository.findByName(name).get().getStock();
     }
 
-    public AddBookResponse addBook(String name, String author, Double price, Integer stock) {
+    public AddBookDto addBook(String name, String author, Double price, Integer stock) {
 
         if (isBookExistsByName(name) != null && isBookExistsByName(name)) {
             Book book = bookRepository.findByName(name).orElseThrow(() -> new IllegalStateException("Book with " + name + " does not exist."));
             Integer newStock = getStockByName(name) + stock;
             book.setStock(newStock);
             Book newBook = bookRepository.save(book);
-            return BookConverter.addBookResponse(newBook);
+            return BookConverter.addBookDto(newBook);
 
         } else {
             Book book = Book.builder()
@@ -49,7 +49,7 @@ public class BookService {
                     .stock(stock)
                     .build();
             Book newBook = bookRepository.save(book);
-            return BookConverter.addBookResponse(newBook);
+            return BookConverter.addBookDto(newBook);
         }
     }
     public Double getBookPriceById(Long bookId) {

@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class GetAllBooksResponse {
+public class GetAllBooksDto {
 
     private Long id;
     private String name;

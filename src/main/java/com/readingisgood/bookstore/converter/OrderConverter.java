@@ -1,25 +1,25 @@
 package com.readingisgood.bookstore.converter;
 
-import com.readingisgood.bookstore.model.response.CancelOrderResponse;
-import com.readingisgood.bookstore.model.response.CreateOrderResponse;
-import com.readingisgood.bookstore.model.response.GetOrderByIdResponse;
-import com.readingisgood.bookstore.model.response.GetOrdersOfUserResponse;
+import com.readingisgood.bookstore.model.response.CancelOrderDto;
+import com.readingisgood.bookstore.model.response.CreateOrderDto;
+import com.readingisgood.bookstore.model.response.GetOrderByIdDto;
+import com.readingisgood.bookstore.model.response.GetOrdersOfUserDto;
 import com.readingisgood.bookstore.persistence.entity.Order;
 
 public class OrderConverter {
 
 
 
-    public static GetOrdersOfUserResponse getOrdersOfUser(Order order){
-        return GetOrdersOfUserResponse.builder()
+    public static GetOrdersOfUserDto getOrdersOfUserDto(Order order){
+        return GetOrdersOfUserDto.builder()
                 .orderId(order.getOrderId())
                 .status(order.getStatus())
                 .totalPrice(order.getTotalPrice())
                 .build();
     }
 
-    public static CreateOrderResponse createOrderResponse(Order order){
-        return CreateOrderResponse.builder()
+    public static CreateOrderDto createOrderDto(Order order){
+        return CreateOrderDto.builder()
                 .orderId(order.getOrderId())
                 .status(order.getStatus())
                 .customerId(order.getCustomerId())
@@ -28,8 +28,8 @@ public class OrderConverter {
                 .build();
     }
 
-    public static CancelOrderResponse cancelOrder(Order order){
-        return CancelOrderResponse.builder()
+    public static CancelOrderDto cancelOrderDto(Order order){
+        return CancelOrderDto.builder()
                 .orderId(order.getOrderId())
                 .status(order.getStatus())
                 .customerId(order.getCustomerId())
@@ -37,8 +37,8 @@ public class OrderConverter {
                 .build();
     }
 
-    public static GetOrderByIdResponse getOrderByIdResponse(Order order){
-        return GetOrderByIdResponse.builder()
+    public static GetOrderByIdDto getOrderByIdDto(Order order){
+        return GetOrderByIdDto.builder()
                 .orderId(order.getOrderId())
                 .status(order.getStatus())
                 .customerId(order.getCustomerId())

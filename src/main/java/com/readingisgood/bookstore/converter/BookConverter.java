@@ -1,13 +1,13 @@
 package com.readingisgood.bookstore.converter;
 
-import com.readingisgood.bookstore.model.response.AddBookResponse;
-import com.readingisgood.bookstore.model.response.GetAllBooksResponse;
-import com.readingisgood.bookstore.model.response.GetBookByIdResponse;
+import com.readingisgood.bookstore.model.response.AddBookDto;
+import com.readingisgood.bookstore.model.response.GetAllBooksDto;
+import com.readingisgood.bookstore.model.response.GetBookByIdDto;
 import com.readingisgood.bookstore.persistence.entity.Book;
 
 public class BookConverter {
-    public static GetAllBooksResponse getAllBooksResponse(Book book){
-        return GetAllBooksResponse.builder()
+    public static GetAllBooksDto getAllBooksDto(Book book){
+        return GetAllBooksDto.builder()
                 .name(book.getName())
                 .author(book.getAuthor())
                 .stock(book.getStock())
@@ -16,8 +16,8 @@ public class BookConverter {
                 .build();
     }
 
-    public static GetBookByIdResponse getBookByIdResponse(Book book){
-        return GetBookByIdResponse.builder()
+    public static GetBookByIdDto getBookByIdDto(Book book){
+        return GetBookByIdDto.builder()
                 .id(book.getId())
                 .name(book.getName())
                 .author(book.getAuthor())
@@ -26,8 +26,8 @@ public class BookConverter {
                 .build();
     }
 
-    public static AddBookResponse addBookResponse(Book book){
-        return AddBookResponse.builder()
+    public static AddBookDto addBookDto(Book book){
+        return AddBookDto.builder()
                 .id(book.getId())
                 .name(book.getName())
                 .author(book.getAuthor())

@@ -2,9 +2,8 @@ package com.readingisgood.bookstore.controller;
 
 
 import com.readingisgood.bookstore.model.request.CreateUserRequest;
-import com.readingisgood.bookstore.model.response.CreateUserResponse;
-import com.readingisgood.bookstore.model.response.GetUserByIdResponse;
-import com.readingisgood.bookstore.persistence.entity.User;
+import com.readingisgood.bookstore.model.response.CreateUserDto;
+import com.readingisgood.bookstore.model.response.GetUserByIdDto;
 import com.readingisgood.bookstore.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +18,7 @@ public class UserController {
 
     @PostMapping
     @RequestMapping("/createuser")
-    public ResponseEntity<CreateUserResponse> createUser(@RequestBody CreateUserRequest createUserRequest){
+    public ResponseEntity<CreateUserDto> createUser(@RequestBody CreateUserRequest createUserRequest){
         return ResponseEntity.ok(userService.createUser(
                 createUserRequest.getUserName(),
                 createUserRequest.getPassword(),
@@ -30,7 +29,7 @@ public class UserController {
     }
     @GetMapping
     @RequestMapping("/getUserById")
-    public ResponseEntity <GetUserByIdResponse> getUserById(@RequestParam("userId") Long userId){
+    public ResponseEntity <GetUserByIdDto> getUserById(@RequestParam("userId") Long userId){
         return ResponseEntity.ok(userService.findUserById(userId));
     }
 }

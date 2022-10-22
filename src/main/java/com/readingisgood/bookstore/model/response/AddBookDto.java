@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class GetBookByIdResponse {
+public class AddBookDto {
 
     private Long id;
     private String name;

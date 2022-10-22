@@ -1,14 +1,14 @@
 package com.readingisgood.bookstore.converter;
 
-import com.readingisgood.bookstore.model.response.CreateUserResponse;
-import com.readingisgood.bookstore.model.response.GetUserByIdResponse;
+import com.readingisgood.bookstore.model.response.CreateUserDto;
+import com.readingisgood.bookstore.model.response.GetUserByIdDto;
 import com.readingisgood.bookstore.persistence.entity.User;
 
 public class UserConverter {
 
 
-    public static CreateUserResponse createUserResponse(User user){
-        return CreateUserResponse.builder()
+    public static CreateUserDto createUserDto(User user){
+        return CreateUserDto.builder()
                 .userId(user.getUserId())
                 .userName(user.getUserName())
                 .name(user.getName())
@@ -18,8 +18,8 @@ public class UserConverter {
                 .build();
     }
 
-    public static GetUserByIdResponse getUserByIdResponse(User user){
-        return GetUserByIdResponse.builder()
+    public static GetUserByIdDto getUserByIdDto(User user){
+        return GetUserByIdDto.builder()
                 .userId(user.getUserId())
                 .name(user.getName())
                 .email(user.getEmail())

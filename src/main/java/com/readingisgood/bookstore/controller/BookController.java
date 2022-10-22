@@ -1,8 +1,8 @@
 package com.readingisgood.bookstore.controller;
 
-import com.readingisgood.bookstore.model.response.AddBookResponse;
-import com.readingisgood.bookstore.model.response.GetAllBooksResponse;
-import com.readingisgood.bookstore.model.response.GetBookByIdResponse;
+import com.readingisgood.bookstore.model.response.AddBookDto;
+import com.readingisgood.bookstore.model.response.GetAllBooksDto;
+import com.readingisgood.bookstore.model.response.GetBookByIdDto;
 import com.readingisgood.bookstore.model.request.AddBookRequest;
 import com.readingisgood.bookstore.service.BookService;
 import lombok.RequiredArgsConstructor;
@@ -21,20 +21,20 @@ public class BookController {
 
     @GetMapping
     @RequestMapping("/getbooks")
-    public ResponseEntity<List<GetAllBooksResponse>> getAllBooks(){
+    public ResponseEntity<List<GetAllBooksDto>> getAllBooks(){
       return ResponseEntity.ok(bookService.getBooks());
     }
 
     @GetMapping
     @RequestMapping("/getbookbyid")
-    public ResponseEntity<GetBookByIdResponse> getBookById(@RequestParam("bookId") Long bookId){
+    public ResponseEntity<GetBookByIdDto> getBookById(@RequestParam("bookId") Long bookId){
         return ResponseEntity.ok(bookService.findBookById(bookId));
     }
 
 
     @PostMapping
     @RequestMapping("/addbook")
-    public ResponseEntity <AddBookResponse> addBook(@RequestBody AddBookRequest addBookRequest){
+    public ResponseEntity <AddBookDto> addBook(@RequestBody AddBookRequest addBookRequest){
         return ResponseEntity.ok(bookService.addBook(addBookRequest.getName(),
                 addBookRequest.getAuthor(),
                 addBookRequest.getPrice(),

@@ -5,12 +5,10 @@ import lombok.Data;
 
 @Data
 @Builder
-public class CreateOrderResponse {
+public class CancelOrderDto {
 
     private Long orderId;
     private Enum status;
     private Long customerId;
     private Double totalPrice;
-    private String address;
 }
-

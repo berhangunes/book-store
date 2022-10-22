@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class GetOrdersOfUserResponse {
+public class GetOrdersOfUserDto {
 
     private Long orderId;
     private Double totalPrice;

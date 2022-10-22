@@ -2,10 +2,10 @@ package com.readingisgood.bookstore.service;
 
 
 import com.readingisgood.bookstore.converter.OrderConverter;
-import com.readingisgood.bookstore.model.response.CancelOrderResponse;
-import com.readingisgood.bookstore.model.response.CreateOrderResponse;
-import com.readingisgood.bookstore.model.response.GetOrderByIdResponse;
-import com.readingisgood.bookstore.model.response.GetOrdersOfUserResponse;
+import com.readingisgood.bookstore.model.response.CancelOrderDto;
+import com.readingisgood.bookstore.model.response.CreateOrderDto;
+import com.readingisgood.bookstore.model.response.GetOrderByIdDto;
+import com.readingisgood.bookstore.model.response.GetOrdersOfUserDto;
 import com.readingisgood.bookstore.persistence.entity.Order;
 import com.readingisgood.bookstore.persistence.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +24,7 @@ public class OrderService {
 
     private final UserService userService;
 
-    public CreateOrderResponse createOrder(List<Long> bookIdList, Long userId) {
+    public CreateOrderDto createOrder(List<Long> bookIdList, Long userId) {
         List<Long> stocks = bookIdList.stream().distinct().collect(Collectors.toList());
         Integer existedStocks = null;
         Integer orderedStocks = null;
@@ -62,15 +62,15 @@ public class OrderService {
             bookService.decreaseBookStock(a);
         }
         Order newOrder = orderRepository.save(order);
-        return OrderConverter.createOrderResponse(newOrder);
+        return OrderConverter.createOrderDto(newOrder);
     }
 
-    public List<GetOrdersOfUserResponse> getOrdersOfUser(Long customerId) {
-        List<GetOrdersOfUserResponse> getOrdersOfUserResponse = orderRepository.findAll().stream().map(OrderConverter::getOrdersOfUser).collect(Collectors.toList());
-        return getOrdersOfUserResponse;
+    public List<GetOrdersOfUserDto> getOrdersOfUser(Long customerId) {
+        List<GetOrdersOfUserDto> getOrdersOfUserDto = orderRepository.findAll().stream().map(OrderConverter::getOrdersOfUserDto).collect(Collectors.toList());
+        return getOrdersOfUserDto;
     }
 
-    public CancelOrderResponse cancelOrder(Long orderId){
+    public CancelOrderDto cancelOrder(Long orderId){
 
         if(orderRepository.findByOrderId(orderId).getStatus() == Order.Status.CANCELED){
             throw new RuntimeException("Order already canceled.");
@@ -85,12 +85,12 @@ public class OrderService {
         }
             orderRepository.findByOrderId(orderId).setStatus(Order.Status.CANCELED);
             Order canceledOrder = orderRepository.findByOrderId(orderId);
-        return OrderConverter.cancelOrder(orderRepository.save(canceledOrder));
+        return OrderConverter.cancelOrderDto(orderRepository.save(canceledOrder));
     }
 
-    public GetOrderByIdResponse getOrderById(Long orderId){
+    public GetOrderByIdDto getOrderById(Long orderId){
         Order order = orderRepository.findByOrderId(orderId);
-        return OrderConverter.getOrderByIdResponse(order);
+        return OrderConverter.getOrderByIdDto(order);
     }
 
 }

@@ -1,8 +1,8 @@
 package com.readingisgood.bookstore.service;
 
 import com.readingisgood.bookstore.converter.UserConverter;
-import com.readingisgood.bookstore.model.response.CreateUserResponse;
-import com.readingisgood.bookstore.model.response.GetUserByIdResponse;
+import com.readingisgood.bookstore.model.response.CreateUserDto;
+import com.readingisgood.bookstore.model.response.GetUserByIdDto;
 import com.readingisgood.bookstore.persistence.entity.User;
 import com.readingisgood.bookstore.persistence.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +16,7 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-    public CreateUserResponse createUser(String userName, String password, String name, String email, String phone, String address) {
+    public CreateUserDto createUser(String userName, String password, String name, String email, String phone, String address) {
 
         if (isUserNameExists(userName) != null && isUserNameExists(userName)) {
             throw new RuntimeException("User already exists.");
@@ -34,7 +34,7 @@ public class UserService {
                     .build();
             userRepository.save(user);
 
-            CreateUserResponse newUser = UserConverter.createUserResponse(user);
+            CreateUserDto newUser = UserConverter.createUserDto(user);
 
             return newUser;
     }
@@ -52,8 +52,8 @@ public class UserService {
         return Objects.nonNull(user);
     }
 
-    public GetUserByIdResponse findUserById(Long userId){
+    public GetUserByIdDto findUserById(Long userId){
             User getUser =  userRepository.findByUserId(userId);
-        return UserConverter.getUserByIdResponse(getUser);
+        return UserConverter.getUserByIdDto(getUser);
     }
 }
