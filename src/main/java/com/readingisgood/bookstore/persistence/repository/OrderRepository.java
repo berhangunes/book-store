@@ -4,13 +4,11 @@ import com.readingisgood.bookstore.persistence.entity.Order;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface OrderRepository extends JpaRepository<Order, Long> {
 
-    Order findByCustomerId(Long customerId);
 
-    List <Order> findOrdersByCustomerId(Long customerId);
-
-    Order findByOrderId(Long orderId);
+    Optional<Order> findByOrderId(Long orderId);
 
 }

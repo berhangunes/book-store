@@ -3,7 +3,7 @@ package com.readingisgood.bookstore.persistence.entity;
 import lombok.*;
 
 import javax.persistence.*;
-import java.beans.ConstructorProperties;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Table
@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Book {
+public class Book implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -33,4 +33,6 @@ public class Book {
 
     @Builder.Default
     private LocalDateTime createdAt = LocalDateTime.now();
+
+
 }

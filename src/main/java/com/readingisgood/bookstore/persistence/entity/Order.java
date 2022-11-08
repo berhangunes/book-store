@@ -3,10 +3,8 @@ package com.readingisgood.bookstore.persistence.entity;
 import lombok.*;
 
 import javax.persistence.*;
-import java.lang.reflect.Array;
+import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.List;
 
 @Table
 @Getter
@@ -15,13 +13,12 @@ import java.util.List;
 @Entity(name = "orderbook")
 @AllArgsConstructor
 @NoArgsConstructor
-public class Order {
+public class Order implements Serializable {
 
    public enum Status{
         CREATED,
         CANCELED
     }
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long orderId;

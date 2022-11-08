@@ -1,59 +1,25 @@
 package com.readingisgood.bookstore.service;
 
-import com.readingisgood.bookstore.converter.UserConverter;
-import com.readingisgood.bookstore.model.response.CreateUserDto;
-import com.readingisgood.bookstore.model.response.GetUserByIdDto;
-import com.readingisgood.bookstore.persistence.entity.User;
-import com.readingisgood.bookstore.persistence.repository.UserRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
-import java.util.Objects;
+import com.readingisgood.bookstore.converter.UserConverter;
+import com.readingisgood.bookstore.persistence.service.UserPersistenceService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.stereotype.Service;
+import response.CreateUserDto;
+import response.GetUserByIdDto;
+
+
 
 @Service
 @RequiredArgsConstructor
 public class UserService {
-
-    private final UserRepository userRepository;
-
-    public CreateUserDto createUser(String userName, String password, String name, String email, String phone, String address) {
-
-        if (isUserNameExists(userName) != null && isUserNameExists(userName)) {
-            throw new RuntimeException("User already exists.");
-        } else if (isEmailExists(email) !=null && isEmailExists(email)) {
-            throw new RuntimeException("Email already exists.");
-        } else if (isPhoneNumberExists(phone) != null && isPhoneNumberExists(phone)) {
-            throw new RuntimeException("Phone Number already exists.");
-        }
-            User user = User.builder().userName(userName)
-                    .password(password)
-                    .name(name)
-                    .email(email)
-                    .phone(phone)
-                    .address(address)
-                    .build();
-            userRepository.save(user);
-
-            CreateUserDto newUser = UserConverter.createUserDto(user);
-
-            return newUser;
+    private final UserPersistenceService userPersistenceService;
+    public CreateUserDto createUser(String userName, String password, String name, String email, String phone, String address){
+            return UserConverter.createUserDto(userPersistenceService.createUser(userName,password,name,email,phone,address));
     }
-    public Boolean isUserNameExists(String userName){
-         User user = userRepository.userName(userName);
-         return Objects.nonNull(user);
-    }
-    public Boolean isEmailExists(String email){
-        User user = userRepository.email(email);
-        return Objects.nonNull(user);
-    }
-
-    public Boolean isPhoneNumberExists(String phone){
-        User user = userRepository.phone(phone);
-        return Objects.nonNull(user);
-    }
-
+    @Cacheable(value = "user")
     public GetUserByIdDto findUserById(Long userId){
-            User getUser =  userRepository.findByUserId(userId);
-        return UserConverter.getUserByIdDto(getUser);
+        return UserConverter.getUserByIdDto(userPersistenceService.findUserById(userId));
     }
 }

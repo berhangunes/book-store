@@ -1,9 +1,9 @@
 package com.readingisgood.bookstore.converter;
 
-import com.readingisgood.bookstore.model.response.AddBookDto;
-import com.readingisgood.bookstore.model.response.GetAllBooksDto;
-import com.readingisgood.bookstore.model.response.GetBookByIdDto;
 import com.readingisgood.bookstore.persistence.entity.Book;
+import response.AddBookDto;
+import response.GetAllBooksDto;
+import response.GetBookByIdDto;
 
 public class BookConverter {
     public static GetAllBooksDto getAllBooksDto(Book book){
@@ -15,7 +15,6 @@ public class BookConverter {
                 .id(book.getId())
                 .build();
     }
-
     public static GetBookByIdDto getBookByIdDto(Book book){
         return GetBookByIdDto.builder()
                 .id(book.getId())
@@ -25,7 +24,6 @@ public class BookConverter {
                 .stock(book.getStock())
                 .build();
     }
-
     public static AddBookDto addBookDto(Book book){
         return AddBookDto.builder()
                 .id(book.getId())
