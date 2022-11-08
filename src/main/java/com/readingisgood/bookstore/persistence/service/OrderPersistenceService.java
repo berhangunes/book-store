@@ -73,6 +73,6 @@ public class OrderPersistenceService {
         return orderRepository.save(order);
     }
     public Order getOrderById(Long orderId) {
-        return orderRepository.findByOrderId(orderId).get();
+        return orderRepository.findByOrderId(orderId).orElseThrow(()-> new OrderNotFoundException());
     }
 }

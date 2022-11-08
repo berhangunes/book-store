@@ -10,6 +10,7 @@ public class UserConverter {
                 .userId(user.getUserId())
                 .userName(user.getUserName())
                 .name(user.getName())
+                .age(user.getAge())
                 .email(user.getEmail())
                 .address(user.getAddress())
                 .phone(user.getPhone())

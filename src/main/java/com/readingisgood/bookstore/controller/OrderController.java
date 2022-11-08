@@ -10,6 +10,7 @@ import response.CreateOrderDto;
 import response.GetOrderByIdDto;
 import response.GetOrdersOfUserDto;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -20,7 +21,7 @@ public class OrderController {
     private final OrderService orderService;
 
     @PostMapping("/order-book")
-    public ResponseEntity<CreateOrderDto> createOrder(@RequestBody CreateOrderRequest createOrderRequest){
+    public ResponseEntity<CreateOrderDto> createOrder(@RequestBody @Valid CreateOrderRequest createOrderRequest){
         return ResponseEntity.ok(orderService.createOrder(createOrderRequest.getBookIdList(), createOrderRequest.getUserId()));
     }
 

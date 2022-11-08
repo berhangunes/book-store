@@ -15,7 +15,7 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class UserPersistenceService{
     private final UserRepository userRepository;
-    public User createUser(String userName, String password, String name, String email, String phone, String address) {
+    public User createUser(String userName, String password, String name, Integer age, String email, String phone, String address) {
         if (isUserNameExists(userName) != null && isUserNameExists(userName)) {
             throw new UserAlreadyExistsException();
         } else if (isEmailExists(email) !=null && isEmailExists(email)) {
@@ -26,6 +26,7 @@ public class UserPersistenceService{
         User user = User.builder().userName(userName)
                 .password(password)
                 .name(name)
+                .age(age)
                 .email(email)
                 .phone(phone)
                 .address(address)

@@ -9,6 +9,7 @@ import response.AddBookDto;
 import response.GetAllBooksDto;
 import response.GetBookByIdDto;
 
+import javax.validation.Valid;
 import java.util.List;
 
 
@@ -26,7 +27,7 @@ public class BookController {
         return ResponseEntity.ok(bookService.findBookById(bookId));
     }
     @PostMapping("/add-book")
-    public ResponseEntity <AddBookDto> addBook(@RequestBody AddBookRequest addBookRequest){
+    public ResponseEntity <AddBookDto> addBook(@RequestBody @Valid AddBookRequest addBookRequest){
         return ResponseEntity.ok(bookService.addBook(addBookRequest.getName(),
                 addBookRequest.getAuthor(),
                 addBookRequest.getPrice(),

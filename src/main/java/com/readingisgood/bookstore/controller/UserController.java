@@ -1,6 +1,5 @@
 package com.readingisgood.bookstore.controller;
 
-import com.readingisgood.bookstore.persistence.entity.User;
 import com.readingisgood.bookstore.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -9,7 +8,8 @@ import request.CreateUserRequest;
 import response.CreateUserDto;
 import response.GetUserByIdDto;
 
-import java.util.List;
+import javax.validation.Valid;
+
 
 @RestController
 @RequestMapping("/v1/user")
@@ -17,11 +17,12 @@ import java.util.List;
 public class UserController {
     private final UserService userService;
     @PostMapping("/create-user")
-    public ResponseEntity<CreateUserDto> createUser(@RequestBody CreateUserRequest createUserRequest){
+    public ResponseEntity<CreateUserDto> createUser(@RequestBody @Valid CreateUserRequest createUserRequest){
         return ResponseEntity.ok(userService.createUser(
                 createUserRequest.getUserName(),
                 createUserRequest.getPassword(),
                 createUserRequest.getName(),
+                createUserRequest.getAge(),
                 createUserRequest.getEmail(),
                 createUserRequest.getPhone(),
                 createUserRequest.getAddress()));

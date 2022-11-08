@@ -15,8 +15,8 @@ import response.GetUserByIdDto;
 @RequiredArgsConstructor
 public class UserService {
     private final UserPersistenceService userPersistenceService;
-    public CreateUserDto createUser(String userName, String password, String name, String email, String phone, String address){
-            return UserConverter.createUserDto(userPersistenceService.createUser(userName,password,name,email,phone,address));
+    public CreateUserDto createUser(String userName, String password, String name, Integer age, String email, String phone, String address){
+            return UserConverter.createUserDto(userPersistenceService.createUser(userName,password,name,age,email,phone,address));
     }
     @Cacheable(value = "user")
     public GetUserByIdDto findUserById(Long userId){
