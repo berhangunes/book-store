@@ -18,14 +18,14 @@ public class ApplicationExceptionHandler {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public Map<String,String> firstHandle(MethodArgumentNotValidException e){
+    public Map<String,String> invalidArgumentHandle(MethodArgumentNotValidException e){
         Map<String,String> errorMap = new HashMap<>();
         e.getBindingResult().getFieldErrors().forEach(error ->
                 errorMap.put(error.getField(),error.getDefaultMessage()));
         return errorMap;
     }
     @ExceptionHandler(BookStoreException.class)
-    public ResponseEntity<ErrorResponse> secondHandle(BookStoreException e){
+    public ResponseEntity<ErrorResponse> businessExceptionHandle(BookStoreException e){
        return new ResponseEntity<ErrorResponse>(ErrorResponse.builder()
                .errorCode(e.getCode()).
                errorMessage(e.getMessage()).
