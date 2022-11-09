@@ -20,7 +20,7 @@ import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class BookEntityPersistenceServiceTest {
+class BookPersistenceServiceTest {
 
     @InjectMocks
     private BookPersistenceService bookPersistenceService;
