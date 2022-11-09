@@ -2,7 +2,6 @@ package com.readingisgood.bookstore.advice;
 
 import com.readingisgood.bookstore.advice.exceptions.BookStoreException;
 import com.readingisgood.bookstore.advice.model.ErrorResponse;
-import com.readingisgood.bookstore.persistence.entity.Book;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;

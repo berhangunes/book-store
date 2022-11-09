@@ -1,11 +1,16 @@
 package com.readingisgood.bookstore.persistence.service;
 
 import com.readingisgood.bookstore.advice.exceptions.BookNotFoundException;
-import com.readingisgood.bookstore.persistence.entity.Book;
+import com.readingisgood.bookstore.converter.BookConverter;
+import com.readingisgood.bookstore.persistence.entity.BookEntity;
 import com.readingisgood.bookstore.persistence.repository.BookRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import request.AddBookRequest;
+import response.AddBookDto;
+import response.GetBookByIdDto;
 
+import java.awt.print.Book;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -13,57 +18,58 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class BookPersistenceService {
     private final BookRepository bookRepository;
-    public Book findBookById(Long bookId){
-        Book book = bookRepository.findById(bookId).orElseThrow(() -> new BookNotFoundException());
-        return book;
+    public GetBookByIdDto findBookById(Long bookId){
+        BookEntity bookEntity = bookRepository.findById(bookId).orElseThrow(() -> new BookNotFoundException());
+        return BookConverter.getBookByIdDto(bookEntity);
     }
     public Integer getStockByName(String name){
         return bookRepository.findByName(name).get().getStock();
     }
-    public Book findByName(String name){
-        return bookRepository.findByName(name).orElseThrow(() -> new BookNotFoundException());
+    public GetBookByIdDto findByName(String name){
+        BookEntity book = bookRepository.findByName(name).orElseThrow(() -> new BookNotFoundException());
+        return BookConverter.getBookByIdDto(book);
     }
-    public Book decreaseBookStock(Long bookId) {
-        Book book = bookRepository.findBookById(bookId);
-        int stock = book.getStock();
-        book.setStock(stock-1);
-        return bookRepository.save(book);
+    public BookEntity decreaseBookStock(Long bookId) {
+        BookEntity bookEntity = bookRepository.findBookById(bookId).orElseThrow(()-> new BookNotFoundException());
+        int stock = bookEntity.getStock();
+        bookEntity.setStock(stock-1);
+        return bookRepository.save(bookEntity);
     }
-    public Book increaseBookStock(Long bookId){
-        Book book = bookRepository.findBookById(bookId);
-        int stock = book.getStock();
-        book.setStock(stock+1);
-        return bookRepository.save(book);
+    public BookEntity increaseBookStock(Long bookId){
+        BookEntity bookEntity = bookRepository.findBookById(bookId).orElseThrow(()-> new BookNotFoundException());
+        int stock = bookEntity.getStock();
+        bookEntity.setStock(stock+1);
+        return bookRepository.save(bookEntity);
     }
     public Boolean isBookExistsByName(String name){
         return bookRepository.findByName(name).isPresent();
     }
     public Integer getStockById (Long bookId){
-        return bookRepository.findBookById(bookId).getStock();
+        return bookRepository.findBookById(bookId).get().getStock();
     }
     public Double getBookPriceById(Long bookId) {
-        return bookRepository.findBookById(bookId).getPrice();
+        return bookRepository.findBookById(bookId).get().getPrice();
     }
 
-    public Book addBook(String name, String author, Double price, Integer stock){
-        if (isBookExistsByName(name) != null && isBookExistsByName(name)) {
-            Book book = findByName(name);
-            Integer newStock = getStockByName(name) + stock;
-            book.setStock(newStock);
-            Book updatedBook = bookRepository.save(book);
-            return bookRepository.save(updatedBook);
+    public AddBookDto addBook(AddBookRequest request){
+        if (isBookExistsByName(request.getName()) != null && isBookExistsByName(request.getName())) {
+            BookEntity bookEntity = bookRepository.findByName(request.getName()).orElseThrow(() -> new BookNotFoundException());
+            Integer newStock = getStockByName(request.getName()) + request.getStock();
+            bookEntity.setStock(newStock);
+            BookEntity updatedBookEntity = bookRepository.save(bookEntity);
+            return BookConverter.addBookDto(bookRepository.save(updatedBookEntity));
         } else {
-            Book newBook = Book.builder()
-                    .name(name)
-                    .author(author)
-                    .price(price)
-                    .stock(stock)
+            BookEntity newBookEntity = BookEntity.builder()
+                    .name(request.getName())
+                    .author(request.getAuthor())
+                    .price(request.getPrice())
+                    .stock(request.getStock())
                     .build();
-            return bookRepository.save(newBook);
+            return BookConverter.addBookDto(bookRepository.save(newBookEntity));
         }
     }
-    public List<Book> getAllBooks() {
-        List<Book> allBooks = bookRepository.findAll().stream().collect(Collectors.toList());
-        return allBooks;
+    public List<BookEntity> getAllBooks() {
+        List<BookEntity> allBookEntities = bookRepository.findAll().stream().collect(Collectors.toList());
+        return allBookEntities;
     }
 }

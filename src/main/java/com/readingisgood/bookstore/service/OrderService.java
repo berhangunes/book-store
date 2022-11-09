@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import response.CancelOrderDto;
@@ -22,16 +23,22 @@ import java.util.stream.Collectors;
 public class OrderService {
     private final OrderPersistenceService orderPersistenceService;
     @Transactional
-    @CacheEvict(value = "orders", allEntries = true)
+    @Caching(evict = {
+            @CacheEvict(value = "Order", allEntries = true),
+            @CacheEvict(value = "Books", allEntries = true)
+    })
     public CreateOrderDto createOrder(List<Long> bookIdList, Long userId) {
         return OrderConverter.createOrderDto(orderPersistenceService.createOrder(bookIdList,userId));
     }
-    @Cacheable(value = "orders")
+    @Cacheable(value = "Order")
     public List<GetOrdersOfUserDto> getOrdersOfUser(Long customerId) {
         return orderPersistenceService.getOrdersOfUser(customerId).stream().map(OrderConverter::getOrdersOfUserDto).collect(Collectors.toList());
     }
     @Transactional
-    @CacheEvict(value = "orders", allEntries = true)
+    @Caching(evict = {
+            @CacheEvict(value = "Order", allEntries = true),
+            @CacheEvict(value = "Books", allEntries = true)
+    })
     public CancelOrderDto cancelOrder(Long orderId){
         return OrderConverter.cancelOrderDto(orderPersistenceService.cancelOrder(orderId));
     }

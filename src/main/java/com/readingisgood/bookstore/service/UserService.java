@@ -18,7 +18,7 @@ public class UserService {
     public CreateUserDto createUser(String userName, String password, String name, Integer age, String email, String phone, String address){
             return UserConverter.createUserDto(userPersistenceService.createUser(userName,password,name,age,email,phone,address));
     }
-    @Cacheable(value = "user")
+    @Cacheable(value = "User")
     public GetUserByIdDto findUserById(Long userId){
         return UserConverter.getUserByIdDto(userPersistenceService.findUserById(userId));
     }

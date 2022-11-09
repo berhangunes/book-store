@@ -3,11 +3,10 @@ package com.readingisgood.bookstore.persistence.service;
 import com.readingisgood.bookstore.advice.exceptions.NotEnoughStockException;
 import com.readingisgood.bookstore.advice.exceptions.OrderAlreadyCanceledException;
 import com.readingisgood.bookstore.advice.exceptions.OrderNotFoundException;
-import com.readingisgood.bookstore.persistence.entity.Order;
+import com.readingisgood.bookstore.persistence.entity.OrderEntity;
 import com.readingisgood.bookstore.persistence.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -22,7 +21,7 @@ public class OrderPersistenceService {
     private final BookPersistenceService bookPersistenceService;
     private final UserPersistenceService userPersistenceService;
 
-    public Order createOrder(List<Long> bookIdList, Long userId) {
+    public OrderEntity createOrder(List<Long> bookIdList, Long userId) {
         List<Long> stocks = bookIdList.stream().distinct().collect(Collectors.toList());
         Integer existedStocks = null;
         Integer orderedStocks = null;
@@ -42,7 +41,7 @@ public class OrderPersistenceService {
         String address = userPersistenceService.findUserById(userId).getAddress();
         Long customerId = userPersistenceService.findUserById(userId).getUserId();
         Double price = bookIdList.stream().mapToDouble(bookPersistenceService::getBookPriceById).sum();
-        Order order = Order.builder()
+        OrderEntity orderEntity = OrderEntity.builder()
                 .orderedBooks(booksArray)
                 .totalPrice(price)
                 .customerId(customerId)
@@ -52,27 +51,27 @@ public class OrderPersistenceService {
             long a = bookIdList.get(i);
             bookPersistenceService.decreaseBookStock(a);
         }
-        return orderRepository.save(order);
+        return orderRepository.save(orderEntity);
     }
-    public List<Order> getOrdersOfUser(Long customerId) {
+    public List<OrderEntity> getOrdersOfUser(Long customerId) {
         return orderRepository.findAll().stream().collect(Collectors.toList());
     }
 
-    public Order cancelOrder(Long orderId){
-        Order order = orderRepository.findByOrderId(orderId).orElseThrow(() -> new OrderNotFoundException());
-        if(order.getStatus() == Order.Status.CANCELED){
+    public OrderEntity cancelOrder(Long orderId){
+        OrderEntity orderEntity = orderRepository.findByOrderId(orderId).orElseThrow(() -> new OrderNotFoundException());
+        if(orderEntity.getStatus() == OrderEntity.Status.CANCELED){
             throw new OrderAlreadyCanceledException();
         }
-        Long[] bookIdArray = order.getOrderedBooks();
+        Long[] bookIdArray = orderEntity.getOrderedBooks();
         List<Long> bookIdList = java.util.Arrays.asList(bookIdArray);
         for(int i=0 ; i<bookIdList.size(); i++){
             long a = bookIdList.get(i);
             bookPersistenceService.increaseBookStock(a);
         }
-        order.setStatus(Order.Status.CANCELED);
-        return orderRepository.save(order);
+        orderEntity.setStatus(OrderEntity.Status.CANCELED);
+        return orderRepository.save(orderEntity);
     }
-    public Order getOrderById(Long orderId) {
+    public OrderEntity getOrderById(Long orderId) {
         return orderRepository.findByOrderId(orderId).orElseThrow(()-> new OrderNotFoundException());
     }
 }

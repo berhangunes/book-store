@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Book implements Serializable {
+public class BookEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

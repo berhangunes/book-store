@@ -1,28 +1,28 @@
 package com.readingisgood.bookstore.converter;
 
-import com.readingisgood.bookstore.persistence.entity.User;
+import com.readingisgood.bookstore.persistence.entity.UserEntity;
 import response.CreateUserDto;
 import response.GetUserByIdDto;
 
 public class UserConverter {
-    public static CreateUserDto createUserDto(User user){
+    public static CreateUserDto createUserDto(UserEntity userEntity){
         return CreateUserDto.builder()
-                .userId(user.getUserId())
-                .userName(user.getUserName())
-                .name(user.getName())
-                .age(user.getAge())
-                .email(user.getEmail())
-                .address(user.getAddress())
-                .phone(user.getPhone())
+                .userId(userEntity.getUserId())
+                .userName(userEntity.getUserName())
+                .name(userEntity.getName())
+                .age(userEntity.getAge())
+                .email(userEntity.getEmail())
+                .address(userEntity.getAddress())
+                .phone(userEntity.getPhone())
                 .build();
     }
-    public static GetUserByIdDto getUserByIdDto(User user){
+    public static GetUserByIdDto getUserByIdDto(UserEntity userEntity){
         return GetUserByIdDto.builder()
-                .userId(user.getUserId())
-                .name(user.getName())
-                .email(user.getEmail())
-                .phone(user.getPhone())
-                .address(user.getAddress())
+                .userId(userEntity.getUserId())
+                .name(userEntity.getName())
+                .email(userEntity.getEmail())
+                .phone(userEntity.getPhone())
+                .address(userEntity.getAddress())
                 .build();
     }
 }

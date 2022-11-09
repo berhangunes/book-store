@@ -9,12 +9,13 @@
 		<relativePath/>
 	</parent>
 	<groupId>com.readingisgood</groupId>
-	<artifactId>book-store</artifactId>
+	<artifactId>bookEntity-store</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>book-store</name>
+	<name>bookEntity-store</name>
 	<description>BookStore Order Application</description>
 	<properties>
 		<java.version>11</java.version>
+		<jmockit.version>1.24</jmockit.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -50,8 +51,14 @@
 		</dependency>
 		<dependency>
 			<groupId>org.example</groupId>
-			<artifactId>book-store-model</artifactId>
+			<artifactId>bookEntity-store-model</artifactId>
 			<version>1.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>org.jmockit</groupId>
+			<artifactId>jmockit</artifactId>
+			<version>${jmockit.version}</version>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 	<build>

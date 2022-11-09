@@ -28,9 +28,6 @@ public class BookController {
     }
     @PostMapping("/add-book")
     public ResponseEntity <AddBookDto> addBook(@RequestBody @Valid AddBookRequest addBookRequest){
-        return ResponseEntity.ok(bookService.addBook(addBookRequest.getName(),
-                addBookRequest.getAuthor(),
-                addBookRequest.getPrice(),
-                addBookRequest.getStock()));
+        return ResponseEntity.ok(bookService.addBook(addBookRequest));
     }
 }

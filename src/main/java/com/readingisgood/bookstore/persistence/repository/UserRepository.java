@@ -1,17 +1,17 @@
 package com.readingisgood.bookstore.persistence.repository;
 
-import com.readingisgood.bookstore.persistence.entity.User;
+import com.readingisgood.bookstore.persistence.entity.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
 
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface UserRepository extends JpaRepository<UserEntity, Long> {
 
 
-        User userName(String userName);
-        User email(String email);
-        User phone(String phone);
+        UserEntity userName(String userName);
+        UserEntity email(String email);
+        UserEntity phone(String phone);
 
-        Optional<User> findByUserId(Long userId);
+        Optional<UserEntity> findByUserId(Long userId);
 }

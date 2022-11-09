@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @Entity(name = "orderbook")
 @AllArgsConstructor
 @NoArgsConstructor
-public class Order implements Serializable {
+public class OrderEntity implements Serializable {
 
    public enum Status{
         CREATED,

@@ -1,13 +1,13 @@
 package com.readingisgood.bookstore.persistence.repository;
 
-import com.readingisgood.bookstore.persistence.entity.Book;
+import com.readingisgood.bookstore.persistence.entity.BookEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
 
-public interface BookRepository extends JpaRepository<Book, Long> {
+public interface BookRepository extends JpaRepository<BookEntity, Long> {
 
-    Optional<Book> findByName(String name);
-    Book findBookById(Long bookId);
+    Optional<BookEntity> findByName(String name);
+    Optional<BookEntity> findBookById(Long bookId);
 }
